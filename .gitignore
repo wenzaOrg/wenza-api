@@ -1,0 +1,172 @@
+
+# =========================================================================
+# Wenza API — Laravel 11 .gitignore
+# Place at: ~/code/wenzaOrg/wenza-api/.gitignore
+# =========================================================================
+
+# ---- Composer / PHP dependencies ----
+/vendor
+composer.phar
+
+# ---- Environment & secrets ----
+.env
+.env.backup
+.env.production
+.env.staging
+.env.local
+.env.*.local
+.phpunit.result.cache
+auth.json
+
+# ---- Laravel runtime & cache ----
+/storage/*.key
+/storage/app/public/*
+!/storage/app/public/.gitignore
+/storage/app/private/*
+!/storage/app/private/.gitignore
+/storage/debugbar
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/pail
+
+# ---- Laravel bootstrap cache ----
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitignore
+
+# ---- Public build artifacts ----
+/public/hot
+/public/storage
+/public/build
+/public/mix-manifest.json
+
+# ---- Node (used for Filament/Livewire asset compilation) ----
+/node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+.pnpm-store
+
+# ---- Filament / Livewire build output ----
+/public/css/filament
+/public/js/filament
+/public/vendor/filament
+/public/vendor/livewire
+
+# ---- Testing ----
+.phpunit.cache
+/coverage
+/build
+clover.xml
+coverage.xml
+coverage-html/
+.phpunit.result.cache
+
+# ---- Static analysis & linting caches ----
+/.phpstan.cache
+/.phpstan-cache
+phpstan-baseline.neon.tmp
+/.pint.cache
+/.php-cs-fixer.cache
+/.rector.cache
+
+# ---- Scribe API docs (auto-generated) ----
+# Keep config, ignore build output
+/public/docs
+/.scribe
+
+# ---- IDE / editor ----
+/.idea
+/.vscode
+/.fleet
+/.zed
+/.vs
+*.sublime-project
+*.sublime-workspace
+.history/
+*.code-workspace
+nbproject/
+.idea_modules/
+
+# ---- OS noise ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---- Homestead / Sail / Valet ----
+Homestead.json
+Homestead.yaml
+/.vagrant
+/.phpactor.json
+
+# ---- Deployment helpers ----
+.env.docker
+docker-compose.override.yml
+
+# ---- Certificate generation output (stored in R2, not repo) ----
+/storage/app/certificates/*.pdf
+/storage/app/public/certificates/*.pdf
+
+# ---- Backup files ----
+*.sql
+*.sql.gz
+*.dump
+database.sqlite
+*.sqlite
+*.sqlite-journal
+!database/database.sqlite.example
+*.bak
+*.swp
+*.swo
+*~
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Supervisor / queue temp files ----
+/.queue-restart
+/.maintenance
+
+# ---- Misc ----
+.env.testing
+.phpunit.result.cache
+/.php_cs.cache
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+Thumbs.db
