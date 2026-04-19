@@ -90,6 +90,9 @@ class CourseResource extends Resource
                 Toggle::make('is_published')
                     ->label('Published')
                     ->helperText('Only published courses appear in the public catalogue'),
+                Toggle::make('is_featured')
+                    ->label('Featured')
+                    ->helperText('Featured courses show on the marketing homepage (max 4).'),
             ])->columns(2),
         ]);
     }
@@ -106,6 +109,7 @@ class CourseResource extends Resource
                     ->numeric(thousandsSeparator: ',')
                     ->sortable(),
                 IconColumn::make('is_published')->boolean()->label('Published'),
+                IconColumn::make('is_featured')->boolean()->label('Featured'),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

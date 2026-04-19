@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -20,9 +21,15 @@ use Illuminate\Support\Str;
  * @property string $format
  * @property string|null $thumbnail_url
  * @property bool $is_published
+ * @property bool $is_featured
  * @property int $price_ngn
  * @property float|null $price_usd
  * @property int|null $scholarship_price_ngn
+ * @property array<int, array{name: string, logo_url: string}>|null $tools_and_technologies
+ * @property array<int, array{role: string, nigeria_ngn: string, us_usd: string, global_usd: string|null}>|null $career_outcomes
+ * @property array<int, string>|null $what_youll_learn
+ * @property array<int, array{question: string, answer: string}>|null $faqs
+ * @property string|null $prerequisites
  */
 class Course extends Model
 {
@@ -40,6 +47,12 @@ class Course extends Model
         'scholarship_price_ngn',
         'thumbnail_url',
         'is_published',
+        'is_featured',
+        'tools_and_technologies',
+        'career_outcomes',
+        'what_youll_learn',
+        'faqs',
+        'prerequisites',
     ];
 
     protected function casts(): array
@@ -47,6 +60,11 @@ class Course extends Model
         return [
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+            'is_featured' => 'boolean',
+            'tools_and_technologies' => 'array',
+            'career_outcomes' => 'array',
+            'what_youll_learn' => 'array',
+            'faqs' => 'array',
         ];
     }
 
@@ -57,6 +75,11 @@ class Course extends Model
                 $course->slug = Str::slug($course->title);
             }
         });
+    }
+
+    public function mentors(): BelongsToMany
+    {
+        return $this->belongsToMany(Mentor::class);
     }
 
     public function modules(): HasMany

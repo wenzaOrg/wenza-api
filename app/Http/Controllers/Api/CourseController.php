@@ -14,7 +14,7 @@ class CourseController extends Controller
     use ApiResponse;
 
     /**
-     * Paginated, filterable course catalog — exact pattern from §4.4.
+     * Paginated, filterable course catalogue — exact pattern from §4.4.
      */
     public function index(Request $request): JsonResponse
     {
@@ -28,11 +28,28 @@ class CourseController extends Controller
     }
 
     /**
-     * Single course with modules + cohorts.
+     * Top 4 featured courses for the marketing homepage.
+     */
+    public function featured(): JsonResponse
+    {
+        $courses = Course::with(['mentors'])
+            ->where('is_published', true)
+            ->where('is_featured', true)
+            ->take(4)
+            ->get();
+
+        return $this->success(
+            CourseResource::collection($courses),
+            'Featured courses retrieved'
+        );
+    }
+
+    /**
+     * Single course with modules, cohorts, and mentors.
      */
     public function show(string $slug): JsonResponse
     {
-        $course = Course::with(['modules.lessons', 'cohorts'])
+        $course = Course::with(['modules.lessons', 'cohorts', 'mentors'])
             ->where('slug', $slug)
             ->where('is_published', true)
             ->firstOrFail();

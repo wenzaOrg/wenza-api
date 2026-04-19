@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\MentorController;
+use App\Http\Controllers\Api\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -12,9 +15,17 @@ Route::prefix('v1')->group(function () {
     Route::post('auth/register', RegisterController::class);
     Route::post('auth/login', LoginController::class);
 
-    // Public catalog
+    // Public catalogue
+    // IMPORTANT: courses/featured must be registered before courses/{slug}
+    Route::get('courses/featured', [CourseController::class, 'featured']);
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
+
+    Route::get('testimonials', [TestimonialController::class, 'index']);
+    Route::get('mentors', [MentorController::class, 'index']);
+
+    // Public lead capture (apply form + contact form)
+    Route::post('leads', [LeadController::class, 'store']);
 
     // Authenticated routes
     Route::middleware('auth:sanctum')->group(function () {

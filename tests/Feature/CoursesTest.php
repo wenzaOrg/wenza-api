@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\Mentor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -38,15 +39,29 @@ it('excludes unpublished courses from the catalog', function () {
     expect($response->json('data.total'))->toBe(5);
 });
 
-it('returns a single course with modules and cohorts', function () {
+it('returns featured courses', function () {
+    Course::factory()->count(3)->create(['is_published' => true, 'is_featured' => true]);
+    Course::factory()->count(5)->create(['is_published' => true, 'is_featured' => false]);
+
+    $response = $this->getJson('/api/v1/courses/featured');
+
+    $response->assertOk();
+    expect($response->json())->toMatchSuccessEnvelope();
+    expect($response->json('data'))->toHaveCount(3);
+});
+
+it('returns a single course with modules, cohorts, and mentors', function () {
     $course = Course::factory()->create(['is_published' => true, 'slug' => 'software-development']);
+    $mentor = Mentor::factory()->create();
+    $course->mentors()->attach($mentor->id);
 
     $response = $this->getJson('/api/v1/courses/software-development');
 
     $response->assertOk();
     expect($response->json())->toMatchSuccessEnvelope();
     expect($response->json('data.slug'))->toBe('software-development');
-    expect($response->json('data'))->toHaveKeys(['modules', 'cohorts']);
+    expect($response->json('data'))->toHaveKeys(['modules', 'cohorts', 'mentors']);
+    expect($response->json('data.mentors'))->toHaveCount(1);
 });
 
 it('returns 404 for unknown course slug', function () {
