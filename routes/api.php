@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
     Route::get('mentors', [MentorController::class, 'index']);
 
     // Public lead capture (apply form + contact form)
-    Route::post('leads', [LeadController::class, 'store']);
+    Route::post('leads', [LeadController::class, 'store'])->middleware(['throttle:leads', 'throttle:leads-burst']);
 
     // Authenticated routes
     Route::middleware('auth:sanctum')->group(function () {

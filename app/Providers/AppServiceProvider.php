@@ -16,10 +16,35 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Rate limiter override — returns the error envelope instead of Laravel's default 429 response
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)
                 ->by($request->user()?->id ?: $request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many requests, please slow down',
+                    ], 429);
+                });
+        });
+
+        RateLimiter::for('leads', function (Request $request) {
+            $perHour = (app()->environment('production') || app()->environment('testing')) ? 5 : 60;
+
+            return Limit::perHour($perHour)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many applications. Please try again in an hour.',
+                    ], 429);
+                });
+        });
+
+        RateLimiter::for('leads-burst', function (Request $request) {
+            $perMinute = (app()->environment('production') || app()->environment('testing')) ? 3 : 10;
+
+            return Limit::perMinute($perMinute)
+                ->by($request->ip())
                 ->response(function () {
                     return response()->json([
                         'status' => 'error',

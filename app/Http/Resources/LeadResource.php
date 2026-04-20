@@ -16,14 +16,20 @@ class LeadResource extends JsonResource
 
         return [
             'id' => $resource->id,
-            'reference' => $resource->reference,
+            'reference_code' => $resource->reference_code,
             'full_name' => $resource->full_name,
             'email' => $resource->email,
             'phone' => $resource->phone,
+            'age' => $resource->age,
+            'employment_status' => $resource->employment_status,
+            'education_level' => $resource->education_level,
+            'goals' => $resource->goals,
             'course_id' => $resource->course_id,
-            'referral_source' => $resource->referral_source,
-            'status' => $resource->status,
+            'wants_scholarship' => (bool) $resource->wants_scholarship,
+            'pipeline_status' => $resource->pipeline_status,
+            'admin_notes' => $resource->admin_notes,
             'created_at' => $resource->created_at?->toIso8601String(),
+            'updated_at' => $resource->updated_at?->toIso8601String(),
         ];
     }
 }

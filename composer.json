@@ -13,6 +13,7 @@
         "laravel/sanctum": "*",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "resend/resend-laravel": "^0.16",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.0",
         "yabacon/paystack-php": "^2.1"

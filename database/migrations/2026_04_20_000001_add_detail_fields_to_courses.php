@@ -10,18 +10,18 @@ return new class extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
             // Add curriculum as JSON (default empty array)
-            if (!Schema::hasColumn('courses', 'curriculum')) {
+            if (! Schema::hasColumn('courses', 'curriculum')) {
                 $table->json('curriculum')->after('faqs')->nullable();
             }
-            
+
             // Add outcomes as JSON (default empty array)
             // Note: 'what_youll_learn' exists, but we'll add 'outcomes' as requested
-            if (!Schema::hasColumn('courses', 'outcomes')) {
+            if (! Schema::hasColumn('courses', 'outcomes')) {
                 $table->json('outcomes')->after('curriculum')->nullable();
             }
-            
+
             // about_mdx as TEXT (long prose)
-            if (!Schema::hasColumn('courses', 'about_mdx')) {
+            if (! Schema::hasColumn('courses', 'about_mdx')) {
                 $table->text('about_mdx')->after('outcomes')->nullable();
             }
         });

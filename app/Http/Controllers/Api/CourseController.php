@@ -34,7 +34,7 @@ class CourseController extends Controller
                     default => $q->orderBy('title', 'asc'),
                 };
             }, fn ($q) => $q->orderBy('title', 'asc'))
-            ->paginate($request->per_page ?? 12);
+            ->paginate($request->per_page ?? 15);
 
         return $this->paginated($courses, 'Courses retrieved', CourseResource::class);
     }
@@ -61,7 +61,7 @@ class CourseController extends Controller
      */
     public function show(string $slug): JsonResponse
     {
-        $course = Course::with(['mentors', 'cohorts' => function ($q) {
+        $course = Course::with(['modules', 'mentors', 'cohorts' => function ($q) {
             $q->where('status', 'upcoming')->orderBy('start_date', 'asc');
         }])
             ->where('slug', $slug)
