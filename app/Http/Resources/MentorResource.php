@@ -16,6 +16,7 @@ class MentorResource extends JsonResource
 
         return [
             'id' => $resource->id,
+            'name' => "{$resource->first_name} {$resource->last_name}",
             'first_name' => $resource->first_name,
             'last_name' => $resource->last_name,
             'title' => $resource->title,
