@@ -27,8 +27,9 @@ use Illuminate\Support\Str;
  * @property int|null $scholarship_price_ngn
  * @property array<int, array{name: string, logo_url: string}>|null $tools_and_technologies
  * @property array<int, array{role: string, nigeria_ngn: string, us_usd: string, global_usd: string|null}>|null $career_outcomes
- * @property array<int, string>|null $what_youll_learn
- * @property array<int, array{question: string, answer: string}>|null $faqs
+ * @property array<int, array{week: number, title: string, topics: string[]}>|null $curriculum
+ * @property array<int, string>|null $outcomes
+ * @property string|null $about_mdx
  * @property string|null $prerequisites
  */
 class Course extends Model
@@ -52,6 +53,9 @@ class Course extends Model
         'career_outcomes',
         'what_youll_learn',
         'faqs',
+        'curriculum',
+        'outcomes',
+        'about_mdx',
         'prerequisites',
     ];
 
@@ -65,6 +69,8 @@ class Course extends Model
             'career_outcomes' => 'array',
             'what_youll_learn' => 'array',
             'faqs' => 'array',
+            'curriculum' => 'array',
+            'outcomes' => 'array',
         ];
     }
 

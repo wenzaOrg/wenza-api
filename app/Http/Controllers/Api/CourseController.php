@@ -14,15 +14,27 @@ class CourseController extends Controller
     use ApiResponse;
 
     /**
-     * Paginated, filterable course catalogue — exact pattern from §4.4.
+     * Paginated, filterable course catalogue.
      */
     public function index(Request $request): JsonResponse
     {
         $courses = Course::query()
+            ->with(['mentors'])
             ->where('is_published', true)
             ->when($request->category, fn ($q, $cat) => $q->where('category', $cat))
-            ->orderBy('title')
-            ->paginate($request->per_page ?? 15);
+            ->when($request->q, function ($q, $search) {
+                $q->where(fn ($sub) => $sub->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%"));
+            })
+            ->when($request->sort, function ($q, $sort) {
+                match ($sort) {
+                    'price_low' => $q->orderBy('price_ngn', 'asc'),
+                    'price_high' => $q->orderBy('price_ngn', 'desc'),
+                    'newest' => $q->orderBy('created_at', 'desc'),
+                    default => $q->orderBy('title', 'asc'),
+                };
+            }, fn ($q) => $q->orderBy('title', 'asc'))
+            ->paginate($request->per_page ?? 12);
 
         return $this->paginated($courses, 'Courses retrieved', CourseResource::class);
     }
@@ -45,11 +57,13 @@ class CourseController extends Controller
     }
 
     /**
-     * Single course with modules, cohorts, and mentors.
+     * Single course with detail relations.
      */
     public function show(string $slug): JsonResponse
     {
-        $course = Course::with(['modules.lessons', 'cohorts', 'mentors'])
+        $course = Course::with(['mentors', 'cohorts' => function ($q) {
+            $q->where('status', 'upcoming')->orderBy('start_date', 'asc');
+        }])
             ->where('slug', $slug)
             ->where('is_published', true)
             ->firstOrFail();
