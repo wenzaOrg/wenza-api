@@ -117,4 +117,6 @@ return [
 
     'admin_notification_address' => env('MAIL_ADMIN_NOTIFICATION_ADDRESS'),
 
+    'admin_scholarship_notification' => env('MAIL_SCHOLARSHIP_ADMIN_NOTIFICATION_ADDRESS'),
+
 ];

@@ -52,5 +52,31 @@ class AppServiceProvider extends ServiceProvider
                     ], 429);
                 });
         });
+
+        RateLimiter::for('scholarship-applications', function (Request $request) {
+            $perHour = (app()->environment('production') || app()->environment('testing')) ? 3 : 60;
+
+            return Limit::perHour($perHour)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many applications. Please try again in an hour.',
+                    ], 429);
+                });
+        });
+
+        RateLimiter::for('scholarship-burst', function (Request $request) {
+            $perMinute = (app()->environment('production') || app()->environment('testing')) ? 2 : 10;
+
+            return Limit::perMinute($perMinute)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many requests, please slow down',
+                    ], 429);
+                });
+        });
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cohort;
 use App\Models\Course;
 use Illuminate\Database\Seeder;
 
@@ -929,19 +928,6 @@ class CourseSeeder extends Seeder
                 $courseData
             );
 
-            // Seed a starter cohort for each course
-            Cohort::firstOrCreate(
-                [
-                    'course_id' => $course->id,
-                    'name' => 'Phoenix Cohort',
-                ],
-                [
-                    'start_date' => now()->addDays(30)->toDateString(),
-                    'end_date' => now()->addDays(30 + ($courseData['duration_weeks'] * 7))->toDateString(),
-                    'capacity' => 30,
-                    'status' => 'upcoming',
-                ]
-            );
         }
     }
 }
