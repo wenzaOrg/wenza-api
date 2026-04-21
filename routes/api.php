@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CohortController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\MentorController;
@@ -28,6 +29,8 @@ Route::prefix('v1')->group(function () {
 
     // Public lead capture (apply form + contact form)
     Route::post('leads', [LeadController::class, 'store'])->middleware(['throttle:leads', 'throttle:leads-burst']);
+    Route::post('contact-messages', [ContactMessageController::class, 'store'])
+        ->middleware(['throttle:contact-messages', 'throttle:contact-burst']);
 
     // Public scholarship application
     Route::post('scholarship-applications', [ScholarshipApplicationController::class, 'store'])

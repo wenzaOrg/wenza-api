@@ -78,5 +78,31 @@ class AppServiceProvider extends ServiceProvider
                     ], 429);
                 });
         });
+
+        RateLimiter::for('contact-messages', function (Request $request) {
+            $perHour = (app()->environment('production') || app()->environment('testing')) ? 5 : 60;
+
+            return Limit::perHour($perHour)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many messages. Please try again in an hour.',
+                    ], 429);
+                });
+        });
+
+        RateLimiter::for('contact-burst', function (Request $request) {
+            $perMinute = (app()->environment('production') || app()->environment('testing')) ? 3 : 10;
+
+            return Limit::perMinute($perMinute)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Too many requests, please slow down',
+                    ], 429);
+                });
+        });
     }
 }
