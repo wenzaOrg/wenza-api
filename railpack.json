@@ -5,7 +5,7 @@
     "extensions": {
       "commands": [
         {
-          "cmd": "install-php-extensions intl zip gd bcmath exif"
+          "cmd": "install-php-extensions pdo_mysql intl zip gd bcmath exif"
         }
       ]
     }
