@@ -1,14 +1,11 @@
 {
   "$schema": "https://schema.railpack.com",
   "provider": "php",
-  "packages": {
-    "php": "8.3"
-  },
   "steps": {
     "extensions": {
       "commands": [
         {
-          "cmd": "install-php-extensions ctype curl dom fileinfo filter hash mbstring openssl pcre pdo pdo_mysql session tokenizer xml intl zip gd bcmath exif"
+          "cmd": "install-php-extensions intl zip gd bcmath exif"
         }
       ]
     }
