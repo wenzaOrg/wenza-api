@@ -6,11 +6,14 @@
       "commands": [
         {
           "cmd": "install-php-extensions pdo_mysql intl zip gd bcmath exif"
+        },
+        {
+          "cmd": "docker-php-ext-enable pdo_mysql intl zip gd bcmath exif"
         }
       ]
     }
   },
   "deploy": {
-    "startCommand": "sh ./bin/start.sh"
+    "startCommand": "php -m && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
   }
 }
