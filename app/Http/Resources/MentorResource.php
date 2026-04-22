@@ -24,6 +24,7 @@ class MentorResource extends JsonResource
             'avatar_url' => $resource->avatar_url,
             'linkedin_url' => $resource->linkedin_url,
             'years_experience' => $resource->years_experience,
+            'courses' => CourseResource::collection($this->whenLoaded('courses')),
         ];
     }
 }

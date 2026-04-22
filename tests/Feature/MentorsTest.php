@@ -33,3 +33,22 @@ it('filters mentors by course_id', function () {
     expect($response->json())->toMatchPaginatedEnvelope();
     expect($response->json('data.total'))->toBe(2);
 });
+
+it('filters mentors by course category', function () {
+    // We need courses with specific categories
+    $engineeringCourse = Course::factory()->create(['category' => 'engineering']);
+    $dataCourse = Course::factory()->create(['category' => 'data']);
+
+    $engMentor = Mentor::factory()->create();
+    $dataMentor = Mentor::factory()->create();
+
+    $engMentor->courses()->attach($engineeringCourse->id);
+    $dataMentor->courses()->attach($dataCourse->id);
+
+    $response = $this->getJson('/api/v1/mentors?category=engineering');
+    $response->assertOk();
+
+    $returnedIds = collect($response->json('data.records'))->pluck('id');
+    expect($returnedIds)->toContain($engMentor->id);
+    expect($returnedIds)->not->toContain($dataMentor->id);
+});

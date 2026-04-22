@@ -19,8 +19,12 @@ class MentorController extends Controller
     public function index(Request $request): JsonResponse
     {
         $mentors = Mentor::query()
+            ->with('courses')
             ->when($request->course_id, function ($q, $courseId) {
                 $q->whereHas('courses', fn ($c) => $c->where('courses.id', $courseId));
+            })
+            ->when($request->category, function ($q, $category) {
+                $q->whereHas('courses', fn ($c) => $c->where('courses.category', $category));
             })
             ->orderBy('first_name')
             ->paginate($request->per_page ?? 15);
