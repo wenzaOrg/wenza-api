@@ -4,31 +4,17 @@
   "steps": {
     "extensions": {
       "commands": [
-        {
-          "cmd": "install-php-extensions pdo_mysql intl zip gd bcmath exif"
-        },
-        {
-          "cmd": "echo 'extension=pdo_mysql.so' > /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini"
-        },
-        {
-          "cmd": "echo 'extension=intl.so' > /usr/local/etc/php/conf.d/docker-php-ext-intl.ini"
-        },
-        {
-          "cmd": "echo 'extension=zip.so' > /usr/local/etc/php/conf.d/docker-php-ext-zip.ini"
-        },
-        {
-          "cmd": "echo 'extension=gd.so' > /usr/local/etc/php/conf.d/docker-php-ext-gd.ini"
-        },
-        {
-          "cmd": "echo 'extension=bcmath.so' > /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini"
-        },
-        {
-          "cmd": "echo 'extension=exif.so' > /usr/local/etc/php/conf.d/docker-php-ext-exif.ini"
-        }
+        {"cmd": "install-php-extensions pdo_mysql intl zip gd bcmath exif"},
+        {"cmd": "echo 'extension=pdo_mysql.so' > /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini"},
+        {"cmd": "echo 'extension=intl.so' > /usr/local/etc/php/conf.d/docker-php-ext-intl.ini"},
+        {"cmd": "echo 'extension=zip.so' > /usr/local/etc/php/conf.d/docker-php-ext-zip.ini"},
+        {"cmd": "echo 'extension=gd.so' > /usr/local/etc/php/conf.d/docker-php-ext-gd.ini"},
+        {"cmd": "echo 'extension=bcmath.so' > /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini"},
+        {"cmd": "echo 'extension=exif.so' > /usr/local/etc/php/conf.d/docker-php-ext-exif.ini"}
       ]
     }
   },
   "deploy": {
-    "startCommand": "php -m && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+    "startCommand": "php artisan migrate --force && frankenphp php-server --root=/app/public --listen=:$PORT"
   }
 }
