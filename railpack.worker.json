@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "php",
+  "steps": {
+    "extensions": {
+      "commands": [
+        {
+          "cmd": "install-php-extensions pdo_mysql intl zip gd bcmath exif"
+        }
+      ]
+    }
+  },
+  "deploy": {
+    "startCommand": "php artisan queue:work --tries=3 --timeout=90 --sleep=3"
+  }
+}
