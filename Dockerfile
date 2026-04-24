@@ -60,4 +60,4 @@ RUN printf '{\n\
 
 EXPOSE 8080
 
-CMD php artisan migrate --force && frankenphp run --config /etc/caddy/Caddyfile
+CMD php artisan migrate --force && php artisan storage:link && frankenphp run --config /etc/caddy/Caddyfile
