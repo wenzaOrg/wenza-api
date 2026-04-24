@@ -37,9 +37,11 @@ RUN mkdir -p storage/framework/sessions \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-RUN php artisan config:cache && \
+CMD php artisan config:cache && \
     php artisan route:cache && \
-    php artisan view:cache
+    php artisan view:cache && \
+    php artisan migrate --force && \
+    frankenphp run --config /etc/caddy/Caddyfile
 
 RUN printf '{\n\
     auto_https off\n\
