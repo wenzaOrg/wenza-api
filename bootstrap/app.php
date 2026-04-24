@@ -45,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             if ($request->is('admin') || $request->is('admin/*')) {
-                return redirect()->guest(route('filament.admin.auth.login'));
+                return redirect()->guest('/admin/login');
             }
         });
 
