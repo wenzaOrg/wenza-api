@@ -35,13 +35,17 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        // Unauthenticated — must contain "Unauthenticated" for the frontend logout trigger
+        // Unauthenticated — API returns JSON 401, admin redirects to Filament login
         $exceptions->render(function (AuthenticationException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Unauthenticated.',
                 ], 401);
+            }
+
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return redirect()->guest(route('filament.admin.auth.login'));
             }
         });
 
