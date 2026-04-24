@@ -12,14 +12,9 @@
         {"cmd": "echo 'extension=bcmath.so' > /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini"},
         {"cmd": "echo 'extension=exif.so' > /usr/local/etc/php/conf.d/docker-php-ext-exif.ini"}
       ]
-    },
-    "caddyfile": {
-      "commands": [
-        {"cmd": "printf '{\\n\\tauto_https off\\n\\tadmin off\\n\\tfrankenphp\\n\\tservers {\\n\\t\\ttrusted_proxies static private_ranges\\n\\t}\\n}\\n\\n:{$PORT}  {\\n\\troot * /app/public\\n\\tencode zstd br gzip\\n\\tphp_server\\n}\\n' > /etc/caddy/Caddyfile"}
-      ]
     }
   },
   "deploy": {
-    "startCommand": "php artisan migrate --force && frankenphp run --config /etc/caddy/Caddyfile"
+    "startCommand": "php artisan migrate --force && printf '{\\n\\tauto_https off\\n\\tadmin off\\n\\tfrankenphp\\n\\tservers {\\n\\t\\ttrusted_proxies static private_ranges\\n\\t}\\n}\\n\\n:%s {\\n\\troot * /app/public\\n\\tencode zstd br gzip\\n\\tphp_server\\n}\\n' \"$PORT\" > /etc/caddy/Caddyfile && frankenphp run --config /etc/caddy/Caddyfile"
   }
 }
