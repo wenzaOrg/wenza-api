@@ -22,6 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'api/v1/webhooks/*',
         ]);
+        // Trust all proxies (Railway terminates SSL at edge)
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Validation errors — envelope-shaped 422
